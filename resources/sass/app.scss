@@ -6,3 +6,8 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.media-right{
+    display:flex;
+    flex-direction:row-reverse;
+}

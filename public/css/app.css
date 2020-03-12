@@ -10882,3 +10882,8 @@ a.text-dark:focus {
   }
 }
 
+.media-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+

@@ -6,7 +6,7 @@
           <div class="card-header">Conversación Activa</div>
           <div class="card-body">
             <div class="card-text">
-              <div class="media mb-2">
+              <!-- <div class="media mb-2">
                 <img
                   src="https://picsum.photos/id/237/60/60"
                   class="rounded-circle img-fluid"
@@ -16,17 +16,19 @@
                   <div class="card p-1">gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</div>
                 </div>
               </div>
-              <div class="media mb-2">
-                
-                <div class="media-body m-1">
-                  <div class="card p-1">Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. fringilla. Donec lacinia congue felis in faucibus.</div>
-                </div>
+              <div class="media mb-2 media-right">
                 <img
                   src="https://picsum.photos/id/237/60/60"
                   class="rounded-circle img-fluid"
                   alt="usuario 1"
                 />
-              </div>
+                <div class="media-body m-1">
+                  <div class="card p-1">Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. fringilla. Donec lacinia congue felis in faucibus.</div>
+                </div>
+                
+              </div> -->
+              <message-conversation-component>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero necessitatibus totam, nesciunt nam</message-conversation-component>
+              <message-conversation-component class="media-right">provident molestias magnam blanditiis omnis culpa optio fugiat in aliquam fugit enim ea eos nostrum voluptate labore!</message-conversation-component>
             </div>
           </div>
           <div class="card-footer">
