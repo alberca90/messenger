@@ -13,12 +13,23 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //User::truncate();
-        DB::table('Users')->insert([
+        // DB::table('Users')->insert([
+        //     'name' => 'UNAWEB',
+        //     'email' => 'soporte@unaweb.es',
+        //     'password' => bcrypt('PromoS2018'),
+        //     'created_at' => new DateTime,
+        //     'updated_at' => new DateTime,
+        // ]);
+
+        User::create([
             'name' => 'UNAWEB',
             'email' => 'soporte@unaweb.es',
             'password' => bcrypt('PromoS2018'),
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime,
+        ]);
+        User::create([
+            'name' => 'Álvaro',
+            'email' => 'alvaro@unaweb.es',
+            'password' => bcrypt('PromoS2018'),
         ]);
     }
 }

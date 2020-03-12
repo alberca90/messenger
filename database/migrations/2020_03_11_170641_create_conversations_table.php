@@ -24,8 +24,8 @@ class CreateConversationsTable extends Migration
             $table->foreign('contact_id')->references('id')->on('users');
 
             //last messaje. contenido y su hora
-            $table->text('last_message');
-            $table->dateTime('last_time');
+            $table->text('last_message')->nullable();
+            $table->dateTime('last_time')->nullable();
 
             // Saber si ha bloqueado a un usuario o silenciado notificaciones
             $table->boolean('listen_notifications')->default(true);
