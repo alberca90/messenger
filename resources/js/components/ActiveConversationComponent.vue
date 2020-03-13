@@ -6,43 +6,27 @@
           <div class="card-header">Conversación Activa</div>
           <div class="card-body">
             <div class="card-text">
-              <!-- <div class="media mb-2">
-                <img
-                  src="https://picsum.photos/id/237/60/60"
-                  class="rounded-circle img-fluid"
-                  alt="usuario 1"
-                />
-                <div class="media-body m-1">
-                  <div class="card p-1">gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</div>
-                </div>
-              </div>
-              <div class="media mb-2 media-right">
-                <img
-                  src="https://picsum.photos/id/237/60/60"
-                  class="rounded-circle img-fluid"
-                  alt="usuario 1"
-                />
-                <div class="media-body m-1">
-                  <div class="card p-1">Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. fringilla. Donec lacinia congue felis in faucibus.</div>
-                </div>
-                
-              </div> -->
-              <message-conversation-component>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero necessitatibus totam, nesciunt nam</message-conversation-component>
-              <message-conversation-component class="media-right">provident molestias magnam blanditiis omnis culpa optio fugiat in aliquam fugit enim ea eos nostrum voluptate labore!</message-conversation-component>
+              <message-conversation-component
+                :class="{'media-right': message.written_by_me}"
+                v-for="message in messages"
+                :key="message.id"
+              >{{ message.content }}</message-conversation-component>
             </div>
           </div>
           <div class="card-footer">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Escribe un mensaje....."
-                aria-label="Mensaje"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Enviar</button>
+            <form @submit.prevent="postMessage" autocomplete="off">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Escribe un mensaje....."
+                  v-model="newMessage"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit">Enviar</button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -66,7 +50,33 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      messages: [],
+      newMessage: ''
+    };
+  },
+  mounted() {
+    this.getMessages();
+  },
+  methods: {
+    getMessages() {
+      axios.get("/api/messages").then(response => {
+        //console.log(response.data);
+        this.messages = response.data;
+      });
+    },
+    postMessage() {
+      const params = {
+        to_id: 2,
+        content: this.newMessage,
+      };
+
+      axios.post("/api/messages", params).then(response => {
+        //console.log(response.data);
+        this.newMessage = '';
+        this.getMessages();
+      });
+    }
   }
 };
 </script>

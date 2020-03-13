@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Conversation;
+use Illuminate\Database\Seeder;
+
 class ConversationTableSeeder extends Seeder
 {
     /**

@@ -1957,25 +1957,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      messages: [],
+      newMessage: ''
+    };
+  },
+  mounted: function mounted() {
+    this.getMessages();
+  },
+  methods: {
+    getMessages: function getMessages() {
+      var _this = this;
+
+      axios.get("/api/messages").then(function (response) {
+        //console.log(response.data);
+        _this.messages = response.data;
+      });
+    },
+    postMessage: function postMessage() {
+      var _this2 = this;
+
+      var params = {
+        to_id: 2,
+        content: this.newMessage
+      };
+      axios.post("/api/messages", params).then(function (response) {
+        //console.log(response.data);
+        _this2.newMessage = '';
+
+        _this2.getMessages();
+      });
+    }
   }
 });
 
@@ -2021,9 +2035,7 @@ __webpack_require__.r(__webpack_exports__);
       lastTime: "1:37 PM"
     };
   },
-  mounted: function mounted() {
-    console.log("Component mounted.");
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -37477,28 +37489,64 @@ var render = function() {
             _c(
               "div",
               { staticClass: "card-text" },
-              [
-                _c("message-conversation-component", [
-                  _vm._v(
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero necessitatibus totam, nesciunt nam"
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
+              _vm._l(_vm.messages, function(message) {
+                return _c(
                   "message-conversation-component",
-                  { staticClass: "media-right" },
-                  [
-                    _vm._v(
-                      "provident molestias magnam blanditiis omnis culpa optio fugiat in aliquam fugit enim ea eos nostrum voluptate labore!"
-                    )
-                  ]
+                  {
+                    key: message.id,
+                    class: { "media-right": message.written_by_me }
+                  },
+                  [_vm._v(_vm._s(message.content))]
                 )
-              ],
+              }),
               1
             )
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "card-footer" }, [
+            _c(
+              "form",
+              {
+                attrs: { autocomplete: "off" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.postMessage($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newMessage,
+                        expression: "newMessage"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Escribe un mensaje....."
+                    },
+                    domProps: { value: _vm.newMessage },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newMessage = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ])
+              ]
+            )
+          ])
         ])
       ]),
       _vm._v(" "),
@@ -37511,28 +37559,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("div", { staticClass: "input-group" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            placeholder: "Escribe un mensaje.....",
-            "aria-label": "Mensaje"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-append" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-secondary",
-              attrs: { type: "button" }
-            },
-            [_vm._v("Enviar")]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-outline-secondary", attrs: { type: "submit" } },
+        [_vm._v("Enviar")]
+      )
     ])
   },
   function() {
