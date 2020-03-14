@@ -1961,7 +1961,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       messages: [],
-      newMessage: ''
+      newMessage: '',
+      contactId: 2
     };
   },
   mounted: function mounted() {
@@ -1971,7 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
     getMessages: function getMessages() {
       var _this = this;
 
-      axios.get("/api/messages").then(function (response) {
+      axios.get("/api/messages?contact_id=" + this.contactId).then(function (response) {
         //console.log(response.data);
         _this.messages = response.data;
       });
@@ -2028,12 +2029,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    conversation: Object
+  },
   data: function data() {
-    return {
-      name: "Álvaro Alberca",
-      lastMessage: "Tú: Nos vemos!!",
-      lastTime: "1:37 PM"
-    };
+    return {};
   },
   mounted: function mounted() {}
 });
@@ -2068,7 +2068,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      conversations: [],
+      newMessage: "",
+      contactId: 2
+    };
+  },
+  mounted: function mounted() {
+    this.getConversations();
+  },
+  methods: {
+    getConversations: function getConversations() {
+      var _this = this;
+
+      axios.get("/api/conversations").then(function (response) {
+        _this.conversations = response.data;
+      });
+    },
+    selectConversation: function selectConversation(conversation) {
+      console.log(conversation);
+    }
+  }
+});
 
 /***/ }),
 
@@ -37623,16 +37651,18 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "col-6 align-self-center" }, [
-          _c("p", { staticClass: "mb-1" }, [_vm._v(_vm._s(_vm.name))]),
+          _c("p", { staticClass: "mb-1" }, [
+            _vm._v(_vm._s(_vm.conversation.contact.name))
+          ]),
           _vm._v(" "),
           _c("p", { staticClass: "text-muted small mb-1" }, [
-            _vm._v(_vm._s(_vm.lastMessage))
+            _vm._v(_vm._s(_vm.conversation.last_message))
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-3" }, [
           _c("p", { staticClass: "text-muted small" }, [
-            _vm._v(_vm._s(_vm.lastTime))
+            _vm._v(_vm._s(_vm.conversation.last_time))
           ])
         ])
       ])
@@ -37679,13 +37709,17 @@ var render = function() {
     _c(
       "div",
       { staticClass: "list-group" },
-      [
-        _c("contact-component", { staticClass: "list-group-item-info" }),
-        _vm._v(" "),
-        _c("contact-component"),
-        _vm._v(" "),
-        _c("contact-component", { staticClass: "list-group-item-success" })
-      ],
+      _vm._l(_vm.conversations, function(conversation) {
+        return _c("contact-component", {
+          key: conversation.id,
+          attrs: { conversation: conversation },
+          nativeOn: {
+            click: function($event) {
+              return _vm.selectConversation(conversation)
+            }
+          }
+        })
+      }),
       1
     )
   ])

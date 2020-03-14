@@ -10,11 +10,11 @@
           />
         </div>
         <div class="col-6 align-self-center">
-          <p class="mb-1">{{name}}</p>
-          <p class="text-muted small mb-1">{{lastMessage}}</p>
+          <p class="mb-1">{{conversation.contact.name}}</p>
+          <p class="text-muted small mb-1">{{conversation.last_message}}</p>
         </div>
         <div class="col-3">
-          <p class="text-muted small">{{lastTime}}</p>
+          <p class="text-muted small">{{conversation.last_time}}</p>
         </div>
       </div>
     </a>
@@ -23,15 +23,12 @@
 
 <script>
 export default {
-    data(){
-        return{
-            name: "Álvaro Alberca",
-            lastMessage: "Tú: Nos vemos!!",
-            lastTime: "1:37 PM"
-        }
-    },
-    mounted() {
-        
-    }
+  props: {
+    conversation: Object
+  },
+  data() {
+    return{}
+  },
+  mounted() {}
 };
 </script>

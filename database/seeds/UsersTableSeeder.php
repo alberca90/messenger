@@ -31,5 +31,10 @@ class UsersTableSeeder extends Seeder
             'email' => 'alvaro@unaweb.es',
             'password' => bcrypt('PromoS2018'),
         ]);
+        User::create([
+            'name' => 'Carlitos',
+            'email' => 'carlos@unaweb.es',
+            'password' => bcrypt('PromoS2018'),
+        ]);
     }
 }
