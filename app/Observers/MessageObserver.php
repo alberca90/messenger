@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Message;
 use App\Conversation;
+use App\Events\MessageSend;
 
 class MessageObserver
 {
@@ -33,6 +34,9 @@ class MessageObserver
         $conversation->last_time = $message->created_at;
         $conversation->save();
        }
+
+       //Aquí vamos a usar Pusher para la comunicación en tiempo real, tenemos un evento llamado MessageSend, que vamos a utilizar para tal fín
+       event(new MessageSend($message));
     }
 
     /**

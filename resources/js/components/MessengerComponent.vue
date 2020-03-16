@@ -5,7 +5,12 @@
         <contacts-list-component v-on:conversationSelected="changeActiveConversation($event)"></contacts-list-component>
       </div>
       <div class="col-8 h-100">
-        <active-conversation-component v-if="selectedConversation" :contact-id="selectedConversation.contact_id" :contact-name="selectedConversation.contact.name"></active-conversation-component>
+        <active-conversation-component v-if="selectedConversation" 
+        :contact-id="selectedConversation.contact_id" 
+        :contact-name="selectedConversation.contact.name"
+        :messages="messages">
+        
+        </active-conversation-component>
       </div>
     </div>
   </div>
@@ -14,19 +19,34 @@
 <script>
 export default {
   props: {
-    
+    userId: Number
   },
   data() {
     return{
-      selectedConversation: null
+      selectedConversation: null,
+      messages: []
     }
+  },
+  mounted() {
+    Echo.channel('example')
+    .listen('MessageSend', (data) => {
+      const message = data.message;
+      message.written_by_me = (this.userId == message.from_id);
+      this.messages.push(message);
+    });
   },
   methods:{
     changeActiveConversation(conversation){
-      //console.log('Nueva conversacion seleccionada', conversation);
       this.selectedConversation = conversation;
-    }
-  },
-  mounted() {}
+      this.getMessages();
+    },
+    getMessages() {
+      axios.get("/api/messages?contact_id=" + this.selectedConversation.contact_id).then(response => {
+        //console.log(response.data);
+        this.messages = response.data;
+      });
+    },
+  }
+  
 };
 </script>

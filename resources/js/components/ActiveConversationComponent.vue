@@ -51,42 +51,35 @@
 export default {
   props: {
     contactId: Number,
-    contactName: String
+    contactName: String,
+    messages: Array
   },
   data() {
     return {
-      messages: [],
       newMessage: ""
     };
   },
   mounted() {
-    this.getMessages();
   },
   methods: {
-    getMessages() {
-      axios.get("/api/messages?contact_id=" + this.contactId).then(response => {
-        //console.log(response.data);
-        this.messages = response.data;
-      });
-    },
     postMessage() {
       const params = {
-        to_id: 2,
+        to_id: this.contactId,
         content: this.newMessage
       };
 
       axios.post("/api/messages", params).then(response => {
         //console.log(response.data);
         this.newMessage = "";
-        this.getMessages();
+        //this.getMessages();
       });
     }
-  },
-  watch: {
-    contactId(value){
-      //console.log('ContactId =' +value)
-      this.getMessages(value);
-    }
   }
+  // watch: {
+  //   contactId(value){
+  //     //console.log('ContactId =' +value)
+  //     this.getMessages(value);
+  //   }
+  // }
 };
 </script>
