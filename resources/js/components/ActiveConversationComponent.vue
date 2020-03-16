@@ -36,7 +36,7 @@
           class="rounded-circle img-fluid m-1"
           alt="usuario 1"
         />
-        <p>Usuario seleccionado</p>
+        <p>{{contactName}}</p>
         <hr />
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value id="desactivarNoti" />
@@ -49,11 +49,14 @@
 
 <script>
 export default {
+  props: {
+    contactId: Number,
+    contactName: String
+  },
   data() {
     return {
       messages: [],
-      newMessage: '',
-      contactId: 2
+      newMessage: ""
     };
   },
   mounted() {
@@ -61,7 +64,7 @@ export default {
   },
   methods: {
     getMessages() {
-      axios.get("/api/messages?contact_id="+this.contactId).then(response => {
+      axios.get("/api/messages?contact_id=" + this.contactId).then(response => {
         //console.log(response.data);
         this.messages = response.data;
       });
@@ -69,14 +72,20 @@ export default {
     postMessage() {
       const params = {
         to_id: 2,
-        content: this.newMessage,
+        content: this.newMessage
       };
 
       axios.post("/api/messages", params).then(response => {
         //console.log(response.data);
-        this.newMessage = '';
+        this.newMessage = "";
         this.getMessages();
       });
+    }
+  },
+  watch: {
+    contactId(value){
+      //console.log('ContactId =' +value)
+      this.getMessages(value);
     }
   }
 };
