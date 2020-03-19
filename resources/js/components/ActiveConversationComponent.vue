@@ -4,7 +4,7 @@
       <div class="col-8">
         <div class="card h-100">
           <div class="card-header">Conversación Activa</div>
-          <div class="card-body">
+          <div id="messages-container" class="card-body">
             <div class="card-text">
               <message-conversation-component
                 :class="{'media-right': message.written_by_me}"
@@ -47,6 +47,12 @@
   </div>
 </template>
 
+<style>
+#messages-container {
+  max-height: calc(100vh - 77px);
+  overflow-y: auto;
+}
+</style>
 <script>
 export default {
   props: {
@@ -59,8 +65,7 @@ export default {
       newMessage: ""
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     postMessage() {
       const params = {
@@ -68,18 +73,22 @@ export default {
         content: this.newMessage
       };
 
-      axios.post("/api/messages", params).then(response => {
-        //console.log(response.data);
+      axios.post("/api/messages", params)
+      .then(response => {
         this.newMessage = "";
-        //this.getMessages();
+        const message = response.data.message;
+        message.written_by_me = true;
+        //alert(message.content);
+        this.$emit('messageCreated', message);
       });
+    },
+    scrollToBottom() {
+      const el = document.querySelector("#messages-container");
+      el.scrollTop = el.scrollHeight;
     }
+  },
+  updated(){
+    this.scrollToBottom();
   }
-  // watch: {
-  //   contactId(value){
-  //     //console.log('ContactId =' +value)
-  //     this.getMessages(value);
-  //   }
-  // }
 };
 </script>
