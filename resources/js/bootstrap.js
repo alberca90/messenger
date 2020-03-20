@@ -53,3 +53,6 @@ window.Echo = new Echo({
     cluster: 'us2',
     encrypted: true
 });
+
+//Formatear fechas
+window.moment = require('moment');

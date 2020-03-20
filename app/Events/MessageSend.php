@@ -30,6 +30,6 @@ class MessageSend implements ShouldBroadcast
     {
         //return new PrivateChannel('example');
         //exit();
-        return new Channel('users.'.$this->message->to_id);
+        return new PrivateChannel('users.'.$this->message->to_id);
     }
 }

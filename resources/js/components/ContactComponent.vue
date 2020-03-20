@@ -14,7 +14,7 @@
           <p class="text-muted small mb-1">{{conversation.last_message}}</p>
         </div>
         <div class="col-3">
-          <p class="text-muted small">{{conversation.last_time}}</p>
+          <p class="text-muted small">{{ lastTime }}</p>
         </div>
       </div>
     </a>
@@ -29,6 +29,11 @@ export default {
   data() {
     return{}
   },
-  mounted() {}
+  mounted() {},
+  computed:{
+    lastTime(){
+      return moment(this.conversation.last_time, "YYYYMMDD h:mm:ss").locale('es').fromNow();
+    }
+  }
 };
 </script>
