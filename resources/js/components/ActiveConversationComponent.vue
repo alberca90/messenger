@@ -9,6 +9,7 @@
               <message-conversation-component
                 :class="{'media-right': message.written_by_me}"
                 v-for="message in messages"
+                :image="message.written_by_me ? myImageProfile : imageProfile"
                 :key="message.id"
               >{{ message.content }}</message-conversation-component>
             </div>
@@ -32,7 +33,7 @@
       </div>
       <div class="col-4">
         <img
-          src="https://picsum.photos/id/237/60/60"
+          :src="imageProfile"
           class="rounded-circle img-fluid m-1"
           alt="usuario 1"
         />
@@ -58,6 +59,8 @@ export default {
   props: {
     contactId: Number,
     contactName: String,
+    contactImage: String,
+    myImage: String,
     messages: Array
   },
   data() {
@@ -89,6 +92,14 @@ export default {
   },
   updated(){
     this.scrollToBottom();
+  },
+  computed:{
+    imageProfile(){
+      return `/users/`+this.contactImage;
+    },
+    myImageProfile(){
+      return `/users/`+this.myImage;
+    }
   }
 };
 </script>

@@ -24,6 +24,7 @@ Vue.component('contacts-list-component', require('./components/ContactsListCompo
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
 Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
+Vue.component('profile-form-component', require('./components/ProfileFormComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

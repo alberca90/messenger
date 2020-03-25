@@ -2,7 +2,9 @@
 
     <div class="media mb-2">
       <img
-        src="https://picsum.photos/id/237/60/60"
+        :src="image"
+        width="48"
+        height="48"
         class="rounded-circle img-fluid"
         alt="usuario 1"
       />
@@ -17,7 +19,9 @@
 
 <script>
 export default {
-    // props: ['written-by-me'],
+  props: {
+    image: String
+  },
   data() {
     return {};
   }

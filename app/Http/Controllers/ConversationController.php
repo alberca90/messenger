@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ConversationController extends Controller
 {
     public function index(){
-        $conversations = Conversation::with('contact:id,name')->where('user_id', auth()->id())->get([
+        $conversations = Conversation::with('contact:id,name,image')->where('user_id', auth()->id())->get([
             'id',
             'contact_id',
             'has_blocked',
