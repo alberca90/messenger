@@ -5,8 +5,8 @@
  */
 
 require('./bootstrap');
-
-window.Vue = require('vue');
+import Vue from 'vue'
+import store from './store'
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('contact-component', require('./components/ContactComponent.vue').default);
 Vue.component('contacts-list-component', require('./components/ContactsListComponent.vue').default);
+Vue.component('contacts-form-component', require('./components/ContactsFormComponent.vue').default);
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
 Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
@@ -32,6 +33,8 @@ Vue.component('profile-form-component', require('./components/ProfileFormCompone
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
 const app = new Vue({
     el: '#app',
+    store
 });

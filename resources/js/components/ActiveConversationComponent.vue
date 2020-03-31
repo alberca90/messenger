@@ -37,7 +37,7 @@
           class="rounded-circle img-fluid m-1"
           alt="usuario 1"
         />
-        <p>{{contactName}}</p>
+        <p>{{selectedConversation.contact.name}}</p>
         <hr />
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value id="desactivarNoti" />
@@ -56,13 +56,6 @@
 </style>
 <script>
 export default {
-  props: {
-    contactId: Number,
-    contactName: String,
-    contactImage: String,
-    myImage: String,
-    messages: Array
-  },
   data() {
     return {
       newMessage: ""
@@ -71,19 +64,7 @@ export default {
   mounted() {},
   methods: {
     postMessage() {
-      const params = {
-        to_id: this.contactId,
-        content: this.newMessage
-      };
-
-      axios.post("/api/messages", params)
-      .then(response => {
-        this.newMessage = "";
-        const message = response.data.message;
-        message.written_by_me = true;
-        //alert(message.content);
-        this.$emit('messageCreated', message);
-      });
+      this.$store.dispatch('postMessage', this.newMessage);
     },
     scrollToBottom() {
       const el = document.querySelector("#messages-container");
@@ -95,10 +76,16 @@ export default {
   },
   computed:{
     imageProfile(){
-      return `/users/`+this.contactImage;
+      return `/users/`+this.$store.state.selectedConversation.contact.image;
     },
     myImageProfile(){
-      return `/users/`+this.myImage;
+      return `/users/`+this.$store.state.user.image;
+    },
+    messages(){
+      return this.$store.state.messages;
+    },
+    selectedConversation(){
+      return this.$store.state.selectedConversation;
     }
   }
 };
