@@ -64,7 +64,7 @@ export default {
   mounted() {},
   methods: {
     postMessage() {
-      this.$store.dispatch('postMessage', this.newMessage);
+      this.$store.dispatch('postMessage', this.newMessage).then(() => {this.newMessage = ''});
     },
     scrollToBottom() {
       const el = document.querySelector("#messages-container");

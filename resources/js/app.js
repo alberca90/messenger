@@ -7,6 +7,10 @@
 require('./bootstrap');
 import Vue from 'vue'
 import store from './store'
+import VueRouter from 'vue-router'
+import MessengerComponent from './components/MessengerComponent.vue'
+
+Vue.use(VueRouter)
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,17 +28,23 @@ Vue.component('contacts-list-component', require('./components/ContactsListCompo
 Vue.component('contacts-form-component', require('./components/ContactsFormComponent.vue').default);
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-conversation-component', require('./components/MessageConversationComponent.vue').default);
-Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
 Vue.component('profile-form-component', require('./components/ProfileFormComponent.vue').default);
+// Vue.component('messenger-component', require('./components/MessengerComponent.vue').default);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const routes = [
+    { path: '/chat', component: MessengerComponent },
+    { path: '/chat/:conversationId', component: MessengerComponent }
+];
+
+
+const router = new VueRouter({
+    routes,
+    mode: 'history'
+})
 
 
 const app = new Vue({
     el: '#app',
-    store
+    store,
+    router
 });

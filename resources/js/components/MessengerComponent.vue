@@ -2,13 +2,11 @@
   <div class="container-fluid py-4 h-100">
     <div class="row h-100">
       <div class="col-4">
-         <contacts-form-component />
+        <contacts-form-component />
         <contacts-list-component />
       </div>
       <div class="col-8 h-100">
-        <active-conversation-component
-          v-if="selectedConversation"
-        ></active-conversation-component>
+        <active-conversation-component v-if="selectedConversation"></active-conversation-component>
       </div>
     </div>
   </div>
@@ -21,8 +19,17 @@ export default {
   },
   mounted() {
     //this.getConversations();
-    this.$store.commit('setUser', this.user);
-    this.$store.dispatch('getConversations');
+    this.$store.commit("setUser", this.user);
+    this.$store.dispatch("getConversations").then(() => {
+      // Si ponemos directamente una ruta en el navegador, no se ejecuta el botón de seleccionar conversación, por lo que lo cargamos aquí
+      const conversationId = this.$route.params.conversationId;
+      if (conversationId) {
+        const conversation = this.$store.getters.getConversationById(
+          conversationId
+        );
+        this.$store.dispatch("getMessages", conversation);
+      }
+    });
 
     //Canal propio de cada usuario
     Echo.private("users." + this.user.id).listen("MessageSend", data => {
@@ -49,11 +56,15 @@ export default {
       const index = this.$store.state.conversations.findIndex(conversation => {
         return conversation.contact_id == user.id;
       });
-      if(index >= 0) this.$set(this.$store.state.conversations[index], "online", status);
+      if (index >= 0)
+        this.$set(this.$store.state.conversations[index], "online", status);
+    },
+    addMessage(message){
+      this.$store.commit('addMessage', message);
     }
   },
-  computed:{
-    selectedConversation(){
+  computed: {
+    selectedConversation() {
       return this.$store.state.selectedConversation;
     }
   }
